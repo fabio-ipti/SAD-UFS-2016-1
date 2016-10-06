@@ -1,0 +1,2 @@
+id;nome;matricula;data_nascimento;id_1;id_aluno;id_atividade;nota;id_2;nome_1;data_inicial;data_final
+ 1,0;Aline Silva; 20101006050,0;1992/01/05 00:00:00.000; 41,0; 1,0; 3,0; 10,0; 3,0;Criar de Algoritmo Genético;2016/05/12 00:00:00.000;2016/05/20 00:00:00.000
