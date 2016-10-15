@@ -1,0 +1,407 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.4
+-- Dumped by pg_dump version 9.5.4
+
+-- Started on 2016-10-14 23:38:12 BRT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 1 (class 3079 OID 12397)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2191 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 182 (class 1259 OID 17710)
+-- Name: dim_aluno; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE dim_aluno (
+    id_aluno integer NOT NULL,
+    nome character varying(60) NOT NULL,
+    idade smallint NOT NULL
+);
+
+
+ALTER TABLE dim_aluno OWNER TO postgres;
+
+--
+-- TOC entry 181 (class 1259 OID 17708)
+-- Name: dim_aluno_id_aluno_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE dim_aluno_id_aluno_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE dim_aluno_id_aluno_seq OWNER TO postgres;
+
+--
+-- TOC entry 2192 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: dim_aluno_id_aluno_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE dim_aluno_id_aluno_seq OWNED BY dim_aluno.id_aluno;
+
+
+--
+-- TOC entry 188 (class 1259 OID 17740)
+-- Name: dim_curso; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE dim_curso (
+    id_curso integer NOT NULL,
+    descricao text NOT NULL
+);
+
+
+ALTER TABLE dim_curso OWNER TO postgres;
+
+--
+-- TOC entry 187 (class 1259 OID 17738)
+-- Name: dim_curso_id_curso_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE dim_curso_id_curso_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE dim_curso_id_curso_seq OWNER TO postgres;
+
+--
+-- TOC entry 2193 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: dim_curso_id_curso_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE dim_curso_id_curso_seq OWNED BY dim_curso.id_curso;
+
+
+--
+-- TOC entry 183 (class 1259 OID 17716)
+-- Name: dim_disciplina; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE dim_disciplina (
+    id_disciplina integer NOT NULL,
+    descricao text NOT NULL
+);
+
+
+ALTER TABLE dim_disciplina OWNER TO postgres;
+
+--
+-- TOC entry 184 (class 1259 OID 17719)
+-- Name: dim_disciplina_id_disciplina_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE dim_disciplina_id_disciplina_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE dim_disciplina_id_disciplina_seq OWNER TO postgres;
+
+--
+-- TOC entry 2194 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: dim_disciplina_id_disciplina_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE dim_disciplina_id_disciplina_seq OWNED BY dim_disciplina.id_disciplina;
+
+
+--
+-- TOC entry 186 (class 1259 OID 17732)
+-- Name: dim_tempo; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE dim_tempo (
+    id_tempo integer NOT NULL,
+    semestre smallint NOT NULL,
+    ano smallint NOT NULL
+);
+
+
+ALTER TABLE dim_tempo OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 17730)
+-- Name: dim_tempo_id_tempo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE dim_tempo_id_tempo_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE dim_tempo_id_tempo_seq OWNER TO postgres;
+
+--
+-- TOC entry 2195 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: dim_tempo_id_tempo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE dim_tempo_id_tempo_seq OWNED BY dim_tempo.id_tempo;
+
+
+--
+-- TOC entry 189 (class 1259 OID 17749)
+-- Name: fato_aulas; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE fato_aulas (
+    id_tempo integer NOT NULL,
+    id_aluno integer NOT NULL,
+    id_disciplina integer NOT NULL,
+    id_curso integer NOT NULL,
+    quant_aprovados integer NOT NULL,
+    quant_reprovados integer NOT NULL,
+    quant_alunos_curso integer NOT NULL,
+    quant_disc_curso integer NOT NULL
+);
+
+
+ALTER TABLE fato_aulas OWNER TO postgres;
+
+--
+-- TOC entry 2045 (class 2604 OID 17713)
+-- Name: id_aluno; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY dim_aluno ALTER COLUMN id_aluno SET DEFAULT nextval('dim_aluno_id_aluno_seq'::regclass);
+
+
+--
+-- TOC entry 2048 (class 2604 OID 17743)
+-- Name: id_curso; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY dim_curso ALTER COLUMN id_curso SET DEFAULT nextval('dim_curso_id_curso_seq'::regclass);
+
+
+--
+-- TOC entry 2046 (class 2604 OID 17721)
+-- Name: id_disciplina; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY dim_disciplina ALTER COLUMN id_disciplina SET DEFAULT nextval('dim_disciplina_id_disciplina_seq'::regclass);
+
+
+--
+-- TOC entry 2047 (class 2604 OID 17735)
+-- Name: id_tempo; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY dim_tempo ALTER COLUMN id_tempo SET DEFAULT nextval('dim_tempo_id_tempo_seq'::regclass);
+
+
+--
+-- TOC entry 2176 (class 0 OID 17710)
+-- Dependencies: 182
+-- Data for Name: dim_aluno; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2196 (class 0 OID 0)
+-- Dependencies: 181
+-- Name: dim_aluno_id_aluno_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('dim_aluno_id_aluno_seq', 1, false);
+
+
+--
+-- TOC entry 2182 (class 0 OID 17740)
+-- Dependencies: 188
+-- Data for Name: dim_curso; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2197 (class 0 OID 0)
+-- Dependencies: 187
+-- Name: dim_curso_id_curso_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('dim_curso_id_curso_seq', 1, false);
+
+
+--
+-- TOC entry 2177 (class 0 OID 17716)
+-- Dependencies: 183
+-- Data for Name: dim_disciplina; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2198 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: dim_disciplina_id_disciplina_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('dim_disciplina_id_disciplina_seq', 1, false);
+
+
+--
+-- TOC entry 2180 (class 0 OID 17732)
+-- Dependencies: 186
+-- Data for Name: dim_tempo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2199 (class 0 OID 0)
+-- Dependencies: 185
+-- Name: dim_tempo_id_tempo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('dim_tempo_id_tempo_seq', 1, false);
+
+
+--
+-- TOC entry 2183 (class 0 OID 17749)
+-- Dependencies: 189
+-- Data for Name: fato_aulas; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2050 (class 2606 OID 17715)
+-- Name: pk_aluno; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY dim_aluno
+    ADD CONSTRAINT pk_aluno PRIMARY KEY (id_aluno);
+
+
+--
+-- TOC entry 2056 (class 2606 OID 17748)
+-- Name: pk_curso; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY dim_curso
+    ADD CONSTRAINT pk_curso PRIMARY KEY (id_curso);
+
+
+--
+-- TOC entry 2052 (class 2606 OID 17729)
+-- Name: pk_disciplina; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY dim_disciplina
+    ADD CONSTRAINT pk_disciplina PRIMARY KEY (id_disciplina);
+
+
+--
+-- TOC entry 2054 (class 2606 OID 17737)
+-- Name: pk_tempo; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY dim_tempo
+    ADD CONSTRAINT pk_tempo PRIMARY KEY (id_tempo);
+
+
+--
+-- TOC entry 2057 (class 2606 OID 17752)
+-- Name: fk_dim_aluno; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY fato_aulas
+    ADD CONSTRAINT fk_dim_aluno FOREIGN KEY (id_aluno) REFERENCES dim_aluno(id_aluno);
+
+
+--
+-- TOC entry 2060 (class 2606 OID 17767)
+-- Name: fk_dim_curso; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY fato_aulas
+    ADD CONSTRAINT fk_dim_curso FOREIGN KEY (id_curso) REFERENCES dim_curso(id_curso);
+
+
+--
+-- TOC entry 2058 (class 2606 OID 17757)
+-- Name: fk_dim_disciplina; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY fato_aulas
+    ADD CONSTRAINT fk_dim_disciplina FOREIGN KEY (id_disciplina) REFERENCES dim_disciplina(id_disciplina);
+
+
+--
+-- TOC entry 2059 (class 2606 OID 17762)
+-- Name: fk_dim_tempo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY fato_aulas
+    ADD CONSTRAINT fk_dim_tempo FOREIGN KEY (id_tempo) REFERENCES dim_tempo(id_tempo);
+
+
+--
+-- TOC entry 2190 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2016-10-14 23:38:12 BRT
+
+--
+-- PostgreSQL database dump complete
+--
+
